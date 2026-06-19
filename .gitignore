@@ -1,1 +1,25 @@
+# Keamanan / Konfigurasi Sensitif
 .env
+.env.local
+
+# Hasil Compile Golang (Executable)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+project-management
+
+# Jika Anda melakukan build ke folder khusus
+bin/
+out/
+dist/
+
+# Env data untuk testing (jika ada)
+*.test
+
+# Konfigurasi Text Editor (Opsional)
+.vscode/
+.idea/
+*.suo
+*.swp
