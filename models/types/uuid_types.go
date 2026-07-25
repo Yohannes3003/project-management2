@@ -50,7 +50,7 @@ func (a UUIDArray) Value()(driver.Value, error) {
 	}
 	postgreFormat := make ([]string,0,len(a))
 	for _ , value := range a{
-		postgreFormat = append(postgreFormat, fmt.Sprintf(`"%s"`, value.String))
+		postgreFormat = append(postgreFormat, fmt.Sprintf(`"%s"`, value.String()))
 	}
 
 	return "{"+strings.Join(postgreFormat, ",") +"}" , nil
