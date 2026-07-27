@@ -90,3 +90,29 @@ func (c *ListController) DeleteLits(ctx *fiber.Ctx) error {
 	} 
 	return utils.Succes(ctx, "Succes Remove List", publicID)
 }
+
+func (c *ListController) UpdateListPosition(ctx *fiber.Ctx) error {
+	boardID := ctx.Params("board_id")
+	if _, err := uuid.Parse(boardID) ; err != nil {
+		return utils.BadRequest(ctx, "ID Not Valid", err.Error())
+	}
+	var positionUUID []uuid.UUID
+	if err := ctx.BodyParser(&positionUUID); err != nil {
+		//if failed try parse array of string
+		var positionString []string
+		if err := ctx.BodyParser(&positionString); err != nil {
+			return utils.BadRequest(ctx, "Invalid Position Format", err.Error())
+		}
+		for _, s := range positionString {
+			u, err := uuid.Parse(s)
+			if err != nil {
+				return utils.BadRequest(ctx, "Invalid Position Format", err.Error())
+			}
+			positionUUID = append(positionUUID, u)
+		}
+	}
+	if err := c.service.UpdatePosition(boardID, positionUUID); err != nil {
+		return utils.InternalServerError(ctx, "Failed Update List", err.Error())
+	}
+	return utils.Succes(ctx, "Succes Update Position List", nil)
+}
